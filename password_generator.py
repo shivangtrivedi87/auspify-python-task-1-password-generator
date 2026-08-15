@@ -2,14 +2,19 @@ import secrets
 import string
 
         
-characters = string.ascii_letters + string.digits + string.punctuation
-
 def generate_password(length): 
-    password = ""
+    letters = string.ascii_letters
+    digits = string.digits
+    punctuation = string.punctuation
+    password = [secrets.choice(letters),secrets.choice(digits),secrets.choice(punctuation) ]
+    
+    allcharacters = letters + digits + punctuation
 
-    for _ in range(length):
-        password += secrets.choice (characters)
-    return password
+    for _ in range(length -3):
+        password.append(secrets.choice (allcharacters))
+
+    secrets.SystemRandom().shuffle(password)
+    return "".join(password)
 
 def generate_multiple_passwords(length, count):
     passwords = []
@@ -22,10 +27,10 @@ def generate_multiple_passwords(length, count):
 while True: 
     try:
         length = int(input ("Enter password length: ")) 
-
-        if length <= 0:
-            print ("Password length should be greater than 0.")
+        if length < 3:
+            print("Password length must be at least 3.")
             continue
+       
         break
     except ValueError:
         print("Please enter valid length.")
